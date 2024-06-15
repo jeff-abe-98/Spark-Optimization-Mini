@@ -34,12 +34,6 @@ Here we : get number of answers per question per month
 
 answers_month = answersDF.withColumn('month', month('creation_date')).groupBy('question_id', 'month').agg(count('*').alias('cnt'))
 
-resultDF = questionsDF.join(answers_month, 'question_id').select('question_id', 'creation_date', 'title', 'month', 'cnt')
+resultDF = answers_month.join(questionsDF, 'question_id').select('question_id', 'creation_date', 'title', 'month', 'cnt')
 
 resultDF.orderBy('question_id', 'month').show()
-
-'''
-Task:
-
-see the query plan of the previous result and rewrite the query to optimize it
-'''
